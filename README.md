@@ -175,4 +175,4 @@ I'll share the deployment steps for both backend and frontend:
    - Install Netlify CLI: `npm install -g netlify-cli`
    - Deploy: `netlify deploy --prod --dir=dist`
 
-Regarding customer value calculation: It's determined in `scoring_engine.py` based on premium-to-claim ratio thresholds. Currently, most claims fall into "Standard" because the thresholds are set high (>0.5 for Premium, >1.0 for VIP). You can adjust these thresholds in the `calculate_customer_value` function to get more varied results.
+NOTE: Regarding customer value calculation: It's determined in `scoring_engine.py` based on premium-to-claim ratio thresholds. Currently, most claims fall into "Standard" because the thresholds are set high (>0.5 for Premium, >1.0 for VIP). You can adjust these thresholds in the `calculate_customer_value` function to get more varied results.
