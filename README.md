@@ -4,7 +4,7 @@ A prototype AI assistant for the BEST Hackathon that automatically processes ins
 
 ## 🚀 Live Demo
 
-- Backend API: [https://app-nnlwofep.fly.dev/](https://app-nnlwofep.fly.dev/)
+- Backend API: *Coming soon*
 - Frontend: *Coming soon*
 
 ## 📋 Project Overview
