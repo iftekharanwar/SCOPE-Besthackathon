@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.routers import claims
 
 app = FastAPI(
-    title="Smart Insurance Claim Routing Assistant",
+    title="SCOPE Assistant",
     description="API for routing insurance claims to appropriate teams",
     version="0.1.0"
 )
@@ -26,7 +26,7 @@ async def healthz():
 @app.get("/")
 async def root():
     return {
-        "message": "Welcome to the Smart Insurance Claim Routing Assistant API",
+        "message": "Welcome to the SCOPE Assistant API",
         "endpoints": {
             "submit_claim": "/submit-claim",
             "adjuster_dashboard": "/adjuster-dashboard",

@@ -1,4 +1,4 @@
-from app.models.claim import ClaimData
+from app.models.claim import ClaimData, FraudIndicator
 
 
 class ScoringEngine:
@@ -89,17 +89,71 @@ class ScoringEngine:
         reasons = []
         
         if claim_data.premium_amount_paid:
-            if claim_data.premium_amount_paid > 1500:
+            if claim_data.premium_amount_paid > 800:
                 customer_value = "VIP"
-                reasons.append(f"Premium > €1,500 (€{claim_data.premium_amount_paid:.2f})")
-            elif claim_data.premium_amount_paid > 1000:
+                reasons.append(f"Premium > €800 (€{claim_data.premium_amount_paid:.2f})")
+            elif claim_data.premium_amount_paid > 500:
                 customer_value = "Premium"
-                reasons.append(f"Premium > €1,000 (€{claim_data.premium_amount_paid:.2f})")
+                reasons.append(f"Premium > €500 (€{claim_data.premium_amount_paid:.2f})")
             else:
                 customer_value = "Standard"
                 reasons.append(f"Standard premium (€{claim_data.premium_amount_paid:.2f})")
         else:
-            customer_value = "Standard"
-            reasons.append("Premium amount unknown")
+            if claim_data.vehicle_brand in ["Ferrari", "Lamborghini", "Maserati"]:
+                customer_value = "VIP"
+                reasons.append(f"Luxury vehicle brand ({claim_data.vehicle_brand})")
+            elif claim_data.vehicle_brand in ["BMW", "Mercedes", "Audi"]:
+                customer_value = "Premium"
+                reasons.append(f"Premium vehicle brand ({claim_data.vehicle_brand})")
+            else:
+                customer_value = "Standard"
+                reasons.append("Premium amount unknown")
             
         return customer_value, reasons
+        
+    @staticmethod
+    def detect_fraud(claim_data: ClaimData) -> FraudIndicator:
+        """
+        Detect potential fraud indicators in a claim
+        Returns: FraudIndicator with fraud score and reasons
+        """
+        fraud_indicator = FraudIndicator()
+        fraud_score = 0.0
+        fraud_indicators = []
+        
+        known_brands = ["BMW", "Mercedes", "Audi", "Volkswagen", "Toyota", "Honda", 
+                       "Ford", "Fiat", "Ferrari", "Lamborghini", "Maserati", "Alfa Romeo"]
+        
+        if claim_data.claim_amount_paid and claim_data.claim_amount_paid > 25000:
+            if not claim_data.vehicle_brand or claim_data.vehicle_brand not in known_brands:
+                fraud_score += 0.5
+                fraud_indicators.append(f"Very high claim amount (€{claim_data.claim_amount_paid:.2f}) with unknown vehicle brand")
+        
+        high_risk_regions = ["Napoli", "Naples", "Caserta"]
+        if claim_data.claim_amount_paid and claim_data.claim_amount_paid > 15000:
+            if claim_data.claim_region in high_risk_regions:
+                fraud_score += 0.4
+                fraud_indicators.append(f"High claim amount in high-risk region ({claim_data.claim_region})")
+        
+        if claim_data.warranty and "third-party" in claim_data.warranty.lower():
+            if claim_data.claim_amount_paid and claim_data.claim_amount_paid > 20000:
+                fraud_score += 0.3
+                fraud_indicators.append("High third-party liability claim amount")
+        
+        missing_info_count = 0
+        if not claim_data.policyholder_age:
+            missing_info_count += 1
+        if not claim_data.vehicle_brand:
+            missing_info_count += 1
+        if not claim_data.claim_region:
+            missing_info_count += 1
+            
+        if missing_info_count >= 2 and claim_data.claim_amount_paid and claim_data.claim_amount_paid > 10000:
+            fraud_score += 0.5
+            fraud_indicators.append(f"Missing critical information ({missing_info_count} fields) with high claim amount")
+        
+        fraud_indicator.fraud_score = min(fraud_score, 1.0)
+        fraud_indicator.fraud_indicators = fraud_indicators
+        fraud_indicator.is_potential_fraud = fraud_score >= 0.5
+        
+        return fraud_indicator

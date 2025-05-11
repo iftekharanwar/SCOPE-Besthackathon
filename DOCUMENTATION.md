@@ -1,8 +1,8 @@
-# Smart Insurance Claim Routing Assistant - Technical Documentation
+# SCOPE Assistant - Technical Documentation
 
 ## 1. System Overview
 
-The Smart Insurance Claim Routing Assistant is a **prototype** system designed to automate the processing and routing of insurance claims. It demonstrates how AI and rule-based systems can be used to extract information from claim submissions, analyze risk factors, and route claims to appropriate departments.
+The SCOPE Assistant is a **prototype** system designed to automate the processing and routing of insurance claims. It demonstrates how AI and rule-based systems can be used to extract information from claim submissions, analyze risk factors, and route claims to appropriate departments.
 
 **Important Note**: This is a prototype implementation with an in-memory database. In a production environment, this would be replaced with a persistent database system and additional security measures.
 

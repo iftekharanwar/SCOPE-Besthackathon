@@ -1,0 +1,40 @@
+Dataset shape: (237648, 11)
+
+Columns: ['CLAIM_ID', 'POLICYHOLDER_AGE', 'POLICYHOLDER_GENDER', 'WARRANTY', 'CLAIM_DATE', 'CLAIM_REGION', 'CLAIM_PROVINCE', 'VEHICLE_BRAND', 'VEHICLE_MODEL', 'CLAIM_AMOUNT_PAID', 'PREMIUM_AMOUNT_PAID']
+
+Data types:
+CLAIM_ID                        int64
+POLICYHOLDER_AGE                int64
+POLICYHOLDER_GENDER            object
+WARRANTY                       object
+CLAIM_DATE             datetime64[ns]
+CLAIM_REGION                   object
+CLAIM_PROVINCE                 object
+VEHICLE_BRAND                  object
+VEHICLE_MODEL                  object
+CLAIM_AMOUNT_PAID             float64
+PREMIUM_AMOUNT_PAID           float64
+
+Missing values:
+CLAIM_ID                  0
+POLICYHOLDER_AGE          0
+POLICYHOLDER_GENDER       6
+WARRANTY                  0
+CLAIM_DATE                0
+CLAIM_REGION           1289
+CLAIM_PROVINCE         7610
+VEHICLE_BRAND           471
+VEHICLE_MODEL           412
+CLAIM_AMOUNT_PAID         0
+PREMIUM_AMOUNT_PAID       0
+
+Summary statistics:
+            CLAIM_ID  POLICYHOLDER_AGE                     CLAIM_DATE  CLAIM_AMOUNT_PAID  PREMIUM_AMOUNT_PAID
+count  237648.000000     237648.000000                         237648      237648.000000        237648.000000
+mean   118824.500000         55.065269  2023-06-03 04:31:49.796000256        1627.311433           261.607716
+min         1.000000      -2970.000000            2018-02-07 00:00:00         100.000000             3.087140
+25%     59412.750000         44.000000            2022-09-13 00:00:00         500.000000            47.035534
+50%    118824.500000         55.000000            2023-06-18 00:00:00        1350.000000           393.203144
+75%    178236.250000         65.000000            2024-02-19 00:00:00        2175.000000           393.203144
+max    237648.000000        125.000000            2024-12-26 00:00:00       10000.000000           454.483229
+std     68603.212724         16.225518                            NaN        1489.482527           167.746318

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart3, RefreshCw, Filter, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
+import { BarChart3, RefreshCw, Filter, AlertTriangle, CheckCircle, XCircle, Brain } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { getAdjusterDashboard, RoutingDecision } from '../api/claimService';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import { MLInsightsDashboard } from '../components/MLInsightsDashboard';
 
 const AdjusterDashboardPage: React.FC = () => {
   const [claims, setClaims] = useState<RoutingDecision[]>([]);
@@ -61,6 +62,8 @@ const AdjusterDashboardPage: React.FC = () => {
     { name: 'Standard', value: claims.filter(c => c.customer_value === 'Standard').length, color: '#6b7280' },
   ].filter(item => item.value > 0);
 
+  const [showMLInsights, setShowMLInsights] = useState(false);
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
@@ -70,11 +73,27 @@ const AdjusterDashboardPage: React.FC = () => {
             View and manage assigned insurance claims
           </p>
         </div>
-        <Button onClick={fetchClaims} variant="outline" className="flex items-center gap-2">
-          <RefreshCw size={16} />
-          Refresh
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            onClick={() => setShowMLInsights(!showMLInsights)} 
+            variant="secondary" 
+            className="flex items-center gap-2"
+          >
+            <Brain size={16} />
+            {showMLInsights ? 'Hide ML Insights' : 'Show ML Insights'}
+          </Button>
+          <Button onClick={fetchClaims} variant="outline" className="flex items-center gap-2">
+            <RefreshCw size={16} />
+            Refresh
+          </Button>
+        </div>
       </div>
+      
+      {showMLInsights && (
+        <div className="mb-8">
+          <MLInsightsDashboard />
+        </div>
+      )}
 
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md mb-6 flex items-start">

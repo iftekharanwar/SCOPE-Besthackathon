@@ -1,4 +1,4 @@
-# SCOPE-Besthackathon
+# SCOPE Assistant
 
 A prototype AI assistant for the BEST Hackathon that automatically processes insurance claims, extracts relevant details, analyzes risk factors, and routes claims to appropriate departments.
 
@@ -39,33 +39,96 @@ This prototype system:
 
 ### Prerequisites
 
-- Python 3.8+ with Poetry
-- Node.js 16+ with npm
-- Git
+- **Python 3.12+** (specifically tested with Python 3.12.5)
+  * Check your version with `python --version`
+  * If you have multiple Python versions, ensure you're using 3.12+
+  * We recommend using pyenv for Python version management
+- **Node.js 16+** with npm/pnpm/yarn
+  * Check your version with `node --version`
+  * We recommend using nvm for Node.js version management
+- **Git**
 
 ### Backend Setup
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/iftekharanwar/SCOPE-Besthackathon.git
-   cd SCOPE-Besthackathon
+   git clone https://github.com/iftekharanwar/smart-insurance-claim-routing.git
+   cd smart-insurance-claim-routing
    ```
 
-2. Install backend dependencies:
+2. Navigate to the backend directory:
    ```bash
    cd claim-routing-api
-   poetry install
    ```
 
-3. Create a `.env` file in the `claim-routing-api` directory (optional):
+3. Create a Python virtual environment (if not using Poetry):
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+4. Install dependencies with Poetry:
+   ```bash
+   # Install Poetry if you don't have it
+   # curl -sSL https://install.python-poetry.org | python3 -
+   
+   # Install dependencies
+   poetry install
+   
+   # If you encounter any issues, try:
+   poetry update
+   ```
+
+   Or with pip (if not using Poetry):
+   ```bash
+   pip install fastapi uvicorn pandas numpy scikit-learn python-dotenv spacy
+   ```
+
+5. Install spaCy and download the English language model (required for NLP features):
+   ```bash
+   # With Poetry
+   poetry add spacy
+   poetry run python -m spacy download en_core_web_sm
+   
+   # Or with pip
+   pip install spacy
+   python -m spacy download en_core_web_sm
+   ```
+   
+   **Important Notes about spaCy:**
+   - The spaCy installation is **critical** for the NLP text extraction features
+   - If you get "No module named 'spacy'" error after installation:
+     * Make sure you're in the correct virtual environment
+     * Try reinstalling with `pip install --force-reinstall spacy`
+   - If you get "No such model: en_core_web_sm" error:
+     * The language model download might have failed
+     * Try downloading again with `python -m spacy download en_core_web_sm`
+     * If that fails, download manually from [spaCy models](https://github.com/explosion/spacy-models/releases/tag/en_core_web_sm-3.8.0)
+   - Python version compatibility:
+     * spaCy 3.7+ requires Python 3.8+
+     * This project uses spaCy 3.7.2 which is compatible with Python 3.12
+
+6. Create a `.env` file in the `claim-routing-api` directory (optional):
    ```
    DEBUG=True
    ```
 
-4. Start the backend server:
+7. Start the backend server:
    ```bash
+   # With Poetry
+   poetry run uvicorn app.main:app --reload
+   
+   # Or with FastAPI CLI (if installed)
    poetry run fastapi dev app/main.py
+   
+   # Or with plain Python
+   python -m uvicorn app.main:app --reload
    ```
+
+8. Troubleshooting common issues:
+   - If you get "No module named 'spacy'": Make sure you've installed spaCy and are using the correct virtual environment
+   - If you get "No such model: en_core_web_sm": Run the spaCy download command again
+   - If you get port conflicts: Change the port with `--port 8001` or another available port
 
 5. The API will be available at `http://localhost:8000`
 
@@ -78,20 +141,44 @@ This prototype system:
 
 2. Install frontend dependencies:
    ```bash
+   # Using npm
    npm install
+   
+   # Or using pnpm
+   pnpm install
+   
+   # Or using yarn
+   yarn install
    ```
 
 3. Create a `.env` file in the frontend directory:
    ```
+   # For local development
    VITE_API_URL=http://localhost:8000
+   
+   # For production (when backend is deployed)
+   # VITE_API_URL=https://app-nnlwofep.fly.dev
    ```
 
 4. Start the development server:
    ```bash
+   # Using npm
    npm run dev
+   
+   # Or using pnpm
+   pnpm run dev
+   
+   # Or using yarn
+   yarn dev
    ```
 
 5. The frontend will be available at `http://localhost:5173`
+
+6. Troubleshooting frontend issues:
+   - If you get dependency errors: Try deleting `node_modules` folder and `package-lock.json` (or `pnpm-lock.yaml`/`yarn.lock`), then reinstall
+   - If you get TypeScript errors: Make sure you're using a compatible Node.js version (16+)
+   - If the API connection fails: Check that your backend is running and the VITE_API_URL is correct
+   - If you see "Module not found" errors: Check that all dependencies are properly installed
 
 ## 🧪 Verification Steps
 
@@ -157,22 +244,3 @@ The system uses the `2025 - BEST Hackathon - dataset.xlsx` file for:
 ## 📄 License
 
 This project is private and not licensed for public use.
-
-
-I'll share the deployment steps for both backend and frontend:
-
-### Backend Deployment Steps:
-1. Navigate to the backend directory: `cd insurance-claim-assistant/claim-routing-api`
-2. Install Fly.io CLI: `curl -L https://fly.io/install.sh | sh`
-3. Login to Fly.io: `fly auth login`
-4. Initialize deployment: `fly launch --name your-app-name`
-5. Deploy: `fly deploy`
-
-### Frontend Deployment Steps:
-1. Navigate to frontend directory: `cd insurance-claim-assistant/frontend`
-2. Build the app: `npm run build`
-3. Deploy to Netlify/Vercel:
-   - Install Netlify CLI: `npm install -g netlify-cli`
-   - Deploy: `netlify deploy --prod --dir=dist`
-
-NOTE: Regarding customer value calculation: It's determined in `scoring_engine.py` based on premium-to-claim ratio thresholds. Currently, most claims fall into "Standard" because the thresholds are set high (>0.5 for Premium, >1.0 for VIP). You can adjust these thresholds in the `calculate_customer_value` function to get more varied results.

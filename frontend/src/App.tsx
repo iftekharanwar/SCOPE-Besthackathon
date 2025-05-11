@@ -10,7 +10,7 @@ const App: React.FC = () => {
       <header className="bg-blue-700 text-white shadow-md">
         <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold">Smart Insurance Claim Routing Assistant</h1>
+            <h1 className="text-2xl font-bold">SCOPE Assistant</h1>
             <nav className="flex space-x-4">
               <Link 
                 to="/" 

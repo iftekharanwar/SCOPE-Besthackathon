@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Dict
 from pydantic import BaseModel, Field
 
 
@@ -6,6 +6,13 @@ class ClaimInput(BaseModel):
     """Model for incoming claim data (either structured or text)"""
     text: Optional[str] = None
     structured_data: Optional[dict] = None
+
+
+class FraudIndicator(BaseModel):
+    """Model for fraud indicators"""
+    is_potential_fraud: bool = False
+    fraud_score: float = 0.0
+    fraud_indicators: List[str] = []
 
 
 class ClaimData(BaseModel):
@@ -22,6 +29,7 @@ class ClaimData(BaseModel):
     claim_id: Optional[str] = None
     claim_date: Optional[str] = None
     raw_text: Optional[str] = None
+    fraud_indicator: Optional[FraudIndicator] = None
 
 
 class RoutingDecision(BaseModel):
@@ -33,6 +41,8 @@ class RoutingDecision(BaseModel):
     reasoning: List[str]
     claim_data: ClaimData
     claim_id: str
+    is_potential_fraud: bool = False
+    fraud_indicators: List[str] = []
 
 
 class ClaimStore(BaseModel):

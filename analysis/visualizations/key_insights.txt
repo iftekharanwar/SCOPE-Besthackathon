@@ -1,0 +1,60 @@
+# Key Insights from Insurance Claims Dataset
+
+## General Statistics
+Total number of claims: 237648
+Average claim amount: 1627.31
+Average premium amount: 261.61
+Average policyholder age: 55.07
+
+## Risk Factors
+Top 5 high-risk warranty types:
+- VEHICLE FIRE: 74.00%
+- NATURAL DISASTERS: 66.97%
+- CIVIL LIABILITY FOR NON-COMMERCIAL VEHICLES: 63.77%
+- SOCIOPOLITICAL EVENTS: 55.86%
+- WILD ANIMAL COLLISION: 49.65%
+
+Top 5 high-risk vehicle brands:
+- ||||||||||||||||||||||||||||||||||||||||||||||||||: 100.00%
+- CASEI: 100.00%
+- MAURER: 100.00%
+- MAN SYN2Z: 100.00%
+- LJGIER: 100.00%
+
+Top 5 high-risk regions:
+- TOSCANA: 39.64%
+- LAZIO: 39.17%
+- LIGURIA: 33.23%
+- PIEMONTE: 31.67%
+- MARCHE: 28.88%
+
+Risk by age group:
+- <25: 26.48%
+- 25-35: 27.45%
+- 35-45: 25.93%
+- 45-55: 24.83%
+- 55-65: 23.82%
+- 65+: 24.71%
+
+## Customer Value Insights
+Top 5 warranty types by premium/claim ratio:
+- GUARANTEE FAILURES: 0.48
+- CIVIL LIABILITY INSURANCE: 0.32
+- KASCO AT FIRST ABSOLUTE RISK: 0.26
+- TRAVEL ASSISTANCE: 0.20
+- BUSINESS: 0.18
+
+Top 5 vehicle brands by premium/claim ratio:
+- DAIMLERCHRYSLER AG: 2.13
+- QUADRICICLO LEGGERO: 1.64
+- FIAT Punto T: 1.64
+- Man: 1.61
+- Mash: 1.61
+
+Premium/claim ratio by age group:
+- <25: 0.25
+- 25-35: 0.24
+- 35-45: 0.24
+- 45-55: 0.25
+- 55-65: 0.26
+- 65+: 0.26
