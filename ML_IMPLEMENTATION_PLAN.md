@@ -3,9 +3,6 @@
 ## Overview
 This document outlines the plan to enhance the SCOPE Assistant with machine learning capabilities for more accurate and data-driven claim routing decisions.
 
-## Current System
-The current system uses rule-based routing with predefined thresholds and business logic to assign claims to departments. While effective, this approach lacks the adaptability and pattern recognition capabilities of machine learning.
-
 ## Proposed ML Enhancement
 
 ### 1. Data Preparation
