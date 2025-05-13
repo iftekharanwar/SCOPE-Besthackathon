@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 from app.models.claim import ClaimInput, RoutingDecision
 from app.modules.claim_extractor import ClaimExtractor
@@ -35,7 +35,7 @@ async def submit_claim(claim_input: ClaimInput) -> RoutingDecision:
 
 
 @router.get("/adjuster-dashboard", response_model=List[RoutingDecision])
-async def adjuster_dashboard(team: str = None) -> List[RoutingDecision]:
+async def adjuster_dashboard(team: Optional[str] = None) -> List[RoutingDecision]:
     """
     Get all claims for the adjuster dashboard
     

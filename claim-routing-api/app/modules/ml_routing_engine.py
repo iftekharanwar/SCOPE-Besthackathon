@@ -12,7 +12,7 @@ import numpy as np
 from pathlib import Path
 from typing import Dict, List, Tuple, Any, Optional
 
-MODEL_DIR = Path("/home/ubuntu/insurance-claim-assistant/analysis/ml/models")
+MODEL_DIR = Path("/home/ubuntu/repos/SCOPE-Besthackathon/analysis/ml/models")
 MODEL_PATH = MODEL_DIR / "best_model.joblib"
 ENCODERS_PATH = MODEL_DIR / "label_encoders.joblib"
 METADATA_PATH = MODEL_DIR / "model_metadata.joblib"
@@ -44,7 +44,7 @@ class MLRoutingEngine:
         except Exception as e:
             print(f"Error loading ML model: {e}")
     
-    def preprocess_claim(self, claim_data: Dict[str, Any]) -> pd.DataFrame:
+    def preprocess_claim(self, claim_data: Dict[str, Any]) -> Optional[pd.DataFrame]:
         """
         Preprocess a claim for ML prediction.
         
@@ -52,7 +52,7 @@ class MLRoutingEngine:
             claim_data: Dictionary containing claim information
             
         Returns:
-            DataFrame with preprocessed features ready for model prediction
+            DataFrame with preprocessed features ready for model prediction or None if model is not available
         """
         if not self.is_model_available:
             return None
@@ -74,7 +74,9 @@ class MLRoutingEngine:
             df['claim_year'] = 2025
             df['claim_month'] = 1
         
-        required_features = self.metadata['features']
+        required_features = []
+        if self.metadata is not None and 'features' in self.metadata:
+            required_features = self.metadata['features']
         for feature in required_features:
             feature_lower = feature.lower()
             if feature_lower not in df.columns:
@@ -99,18 +101,19 @@ class MLRoutingEngine:
                 else:
                     df[feature_lower] = 0
         
-        for col, encoder in self.encoders.items():
-            col_lower = col.lower()
-            if col_lower in df.columns:
-                try:
-                    df[col_lower] = encoder.transform(df[col_lower].astype(str))
-                except:
-                    df[col_lower] = 0
+        if self.encoders is not None:
+            for col, encoder in self.encoders.items():
+                col_lower = col.lower()
+                if col_lower in df.columns:
+                    try:
+                        df[col_lower] = encoder.transform(df[col_lower].astype(str))
+                    except:
+                        df[col_lower] = 0
         
         df.columns = [col.upper() for col in df.columns]
         return df
     
-    def predict_department(self, claim_data: Dict[str, Any]) -> Tuple[str, float, List[str]]:
+    def predict_department(self, claim_data: Dict[str, Any]) -> Tuple[Optional[str], float, List[str]]:
         """
         Predict the most appropriate department for a claim using the ML model.
         
@@ -119,7 +122,7 @@ class MLRoutingEngine:
             
         Returns:
             Tuple containing:
-            - Predicted department
+            - Predicted department (or None if model is not available)
             - Confidence score (probability)
             - List of reasons for the prediction
         """
@@ -131,15 +134,25 @@ class MLRoutingEngine:
             return None, 0.0, ["Failed to preprocess claim data"]
         
         try:
+            if self.model is None:
+                return None, 0.0, ["ML model not initialized"]
+                
             prediction = self.model.predict(X)[0]
             probabilities = self.model.predict_proba(X)[0]
             confidence = max(probabilities)
             
-            if isinstance(prediction, str) and prediction in self.metadata.get('target_classes', []):
+            target_classes = []
+            if self.metadata is not None and 'target_classes' in self.metadata:
+                target_classes = self.metadata['target_classes']
+                
+            if isinstance(prediction, str) and prediction in (self.metadata.get('target_classes', []) if self.metadata else []):
                 predicted_department = prediction
-            elif isinstance(prediction, (int, np.integer)):
+            elif isinstance(prediction, (int, np.integer)) and self.metadata is not None and 'target_classes' in self.metadata:
                 departments = self.metadata['target_classes']
-                predicted_department = departments[prediction]
+                if 0 <= prediction < len(departments):
+                    predicted_department = departments[prediction]
+                else:
+                    predicted_department = str(prediction)
             else:
                 predicted_department = str(prediction)
             
