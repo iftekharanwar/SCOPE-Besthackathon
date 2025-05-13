@@ -7,7 +7,7 @@ interface MLInsightsDashboardProps {
 }
 
 export function MLInsightsDashboard({ className }: MLInsightsDashboardProps) {
-  const [activeCategory, setActiveCategory] = useState<'feature-importance' | 'model-performance' | 'distributions'>('feature-importance');
+  const [activeCategory, setActiveCategory] = useState<'feature-importance' | 'model-performance' | 'distributions' | 'time-based' | 'geographic' | 'advanced-analytics'>('feature-importance');
 
   const visualizations = {
     featureImportance: [
@@ -81,6 +81,114 @@ export function MLInsightsDashboard({ className }: MLInsightsDashboardProps) {
         image: '/ml-visualizations/warranty_distribution.png',
         explanation: 'The warranty type distribution shows that Basic and Comprehensive warranties are most common, while Third-party liability claims occur less frequently. Third-party claims often involve legal considerations and are typically routed to specialized Legal Claims teams regardless of other factors.'
       }
+    ],
+    timeBased: [
+      {
+        title: 'Monthly Claim Patterns',
+        description: 'How claim volumes vary throughout the year',
+        image: '/ml-visualizations/monthly_claim_patterns.png',
+        explanation: 'This visualization shows how claim volumes fluctuate by month across different years. Identifying seasonal patterns helps in resource planning and staffing. Peak claim periods may require additional adjusters or specialized teams to handle the increased workload efficiently.'
+      },
+      {
+        title: 'Quarterly Claim Patterns',
+        description: 'Seasonal trends in claim volumes',
+        image: '/ml-visualizations/quarterly_claim_patterns.png',
+        explanation: 'The quarterly view provides a broader perspective on seasonal trends. It helps in quarterly business planning and resource allocation. Consistent patterns across years can inform strategic decisions about staffing and department capacity.'
+      },
+      {
+        title: 'Day of Week Analysis',
+        description: 'Claim volumes by day of the week',
+        image: '/ml-visualizations/day_of_week_claims.png',
+        explanation: 'This visualization reveals which days of the week see the highest claim volumes. This information is crucial for staffing decisions and workload management. Higher claim volumes on specific days may require additional resources to maintain service levels.'
+      },
+      {
+        title: 'Average Claim Amount by Month',
+        description: 'Monthly variation in average claim amounts',
+        image: '/ml-visualizations/monthly_avg_claim_amount.png',
+        explanation: 'This chart shows how the average claim amount varies by month. It helps identify periods when more complex or expensive claims are filed. This information can guide financial planning and reserves management throughout the year.'
+      },
+      {
+        title: 'Claim Volume Heatmap',
+        description: 'Detailed view of claim volumes by day and month',
+        image: '/ml-visualizations/claim_volume_heatmap.png',
+        explanation: 'The heatmap provides a detailed view of claim volumes by day and month. It helps identify specific dates or periods with unusually high claim volumes. This can be useful for identifying external factors affecting claim patterns, such as holidays or weather events.'
+      }
+    ],
+    geographic: [
+      {
+        title: 'Claim Density by Region',
+        description: 'Number of claims filed in each region',
+        image: '/ml-visualizations/claim_density_by_region.png',
+        explanation: 'This visualization shows the number of claims filed in each region. Regions with higher claim volumes may require dedicated teams or additional resources. This information helps in strategic resource allocation and regional office planning.'
+      },
+      {
+        title: 'Average Claim Amount by Region',
+        description: 'Regional variation in claim amounts',
+        image: '/ml-visualizations/avg_claim_amount_by_region.png',
+        explanation: 'This chart displays the average claim amount for each region. Regions with higher average claim amounts may indicate more complex claims or higher-value insured assets. This information can guide pricing strategies and risk assessment by region.'
+      },
+      {
+        title: 'Risk Score by Region',
+        description: 'Composite risk metric by region',
+        image: '/ml-visualizations/risk_score_by_region.png',
+        explanation: 'The risk score is a composite metric calculated from claim frequency, average amount, variability, and maximum claim amount. Regions with higher risk scores may require more careful underwriting and claim investigation. This metric helps identify geographic areas with potentially higher insurance risk.'
+      },
+      {
+        title: 'Fraud Probability by Region',
+        description: 'Estimated fraud risk by region',
+        image: '/ml-visualizations/fraud_probability_by_region.png',
+        explanation: 'This visualization shows the estimated fraud probability for each region based on various risk factors. Regions with higher fraud probability scores may require enhanced fraud detection measures and more thorough claim investigations. This information helps focus fraud prevention resources where they are most needed.'
+      },
+      {
+        title: 'Region-Department Assignment',
+        description: 'How claims from different regions are routed',
+        image: '/ml-visualizations/region_department_heatmap.png',
+        explanation: 'This heatmap shows how claims from different regions are distributed across departments. It helps identify patterns in claim routing and potential regional specialization needs. For example, some regions may have a higher proportion of claims routed to specialized departments like Legal Claims or High Value Claims.'
+      }
+    ],
+    advancedAnalytics: [
+      {
+        title: 'Customer Value Segmentation',
+        description: 'Segmentation based on premium amounts',
+        image: '/ml-visualizations/customer_value_segmentation.png',
+        explanation: 'This visualization segments customers based on their premium amounts. Higher premium customers are considered more valuable and may receive priority service. This segmentation helps in customer relationship management and service prioritization.'
+      },
+      {
+        title: 'Risk Score Distribution',
+        description: 'Distribution of claims across risk categories',
+        image: '/ml-visualizations/risk_score_distribution.png',
+        explanation: 'The risk score is calculated based on policyholder age, claim amount, and premium amount. This distribution shows how claims are distributed across different risk categories. Higher risk claims may require more thorough investigation and specialized handling.'
+      },
+      {
+        title: 'Department Workload Forecast',
+        description: 'Department workload trends over time',
+        image: '/ml-visualizations/department_workload_forecast.png',
+        explanation: 'This time series visualization shows how department workloads have changed over time. It can help predict future workloads and plan resource allocation accordingly. Seasonal patterns and trends can inform staffing and capacity planning.'
+      },
+      {
+        title: 'Claim vs Premium Analysis',
+        description: 'Relationship between premium and claim amounts',
+        image: '/ml-visualizations/claim_vs_premium_scatter.png',
+        explanation: 'This scatter plot shows the relationship between premium amounts and claim amounts. It helps identify potential pricing issues and assess the profitability of different customer segments. The coloring by department shows how different types of claims are distributed across this relationship.'
+      },
+      {
+        title: 'Age Group Analysis',
+        description: 'Department assignment by age group',
+        image: '/ml-visualizations/age_group_analysis.png',
+        explanation: 'This visualization shows how claims from different age groups are distributed across departments. It helps identify age-related patterns in claim types and complexity. This information can guide age-specific product development and marketing strategies.'
+      },
+      {
+        title: 'Vehicle Brand Analysis',
+        description: 'Claim amount distribution by vehicle brand',
+        image: '/ml-visualizations/vehicle_brand_claim_analysis.png',
+        explanation: 'This box plot shows the distribution of claim amounts for different vehicle brands. It helps identify brands associated with higher claim amounts or greater variability. This information can inform underwriting and pricing strategies for different vehicle types.'
+      },
+      {
+        title: 'Warranty Type Impact Analysis',
+        description: 'How warranty types affect claim amounts',
+        image: '/ml-visualizations/warranty_impact_analysis.png',
+        explanation: 'This visualization shows how different warranty types affect claim amounts and routing decisions. Third-party liability warranties typically result in higher claim amounts and are often routed to specialized departments. This information helps in product design and pricing strategy.'
+      }
     ]
   };
 
@@ -93,7 +201,7 @@ export function MLInsightsDashboard({ className }: MLInsightsDashboardProps) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex gap-2 mb-4">
+        <div className="flex flex-wrap gap-2 mb-4">
           <Button 
             variant={activeCategory === 'feature-importance' ? 'default' : 'outline'} 
             onClick={() => setActiveCategory('feature-importance')}
@@ -111,6 +219,24 @@ export function MLInsightsDashboard({ className }: MLInsightsDashboardProps) {
             onClick={() => setActiveCategory('distributions')}
           >
             Data Distributions
+          </Button>
+          <Button 
+            variant={activeCategory === 'time-based' ? 'default' : 'outline'} 
+            onClick={() => setActiveCategory('time-based')}
+          >
+            Time-Based Patterns
+          </Button>
+          <Button 
+            variant={activeCategory === 'geographic' ? 'default' : 'outline'} 
+            onClick={() => setActiveCategory('geographic')}
+          >
+            Geographic Analysis
+          </Button>
+          <Button 
+            variant={activeCategory === 'advanced-analytics' ? 'default' : 'outline'} 
+            onClick={() => setActiveCategory('advanced-analytics')}
+          >
+            Advanced Analytics
           </Button>
         </div>
         
@@ -163,6 +289,78 @@ export function MLInsightsDashboard({ className }: MLInsightsDashboardProps) {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {visualizations.distributions.map((viz, index) => (
+                  <div key={index} className="bg-white p-4 rounded-lg shadow">
+                    <h3 className="text-lg font-medium mb-2">{viz.title}</h3>
+                    <p className="text-sm text-gray-500 mb-4">{viz.description}</p>
+                    <div className="flex justify-center">
+                      <img 
+                        src={viz.image} 
+                        alt={viz.title} 
+                        className="max-w-full h-auto rounded-md"
+                      />
+                    </div>
+                    <div className="mt-4 p-3 bg-gray-50 rounded-md border border-gray-100">
+                      <h4 className="text-sm font-medium text-gray-700 mb-1">What This Means:</h4>
+                      <p className="text-sm text-gray-600">{viz.explanation}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+          
+          {activeCategory === 'time-based' && (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {visualizations.timeBased.map((viz, index) => (
+                  <div key={index} className="bg-white p-4 rounded-lg shadow">
+                    <h3 className="text-lg font-medium mb-2">{viz.title}</h3>
+                    <p className="text-sm text-gray-500 mb-4">{viz.description}</p>
+                    <div className="flex justify-center">
+                      <img 
+                        src={viz.image} 
+                        alt={viz.title} 
+                        className="max-w-full h-auto rounded-md"
+                      />
+                    </div>
+                    <div className="mt-4 p-3 bg-gray-50 rounded-md border border-gray-100">
+                      <h4 className="text-sm font-medium text-gray-700 mb-1">What This Means:</h4>
+                      <p className="text-sm text-gray-600">{viz.explanation}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+          
+          {activeCategory === 'geographic' && (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {visualizations.geographic.map((viz, index) => (
+                  <div key={index} className="bg-white p-4 rounded-lg shadow">
+                    <h3 className="text-lg font-medium mb-2">{viz.title}</h3>
+                    <p className="text-sm text-gray-500 mb-4">{viz.description}</p>
+                    <div className="flex justify-center">
+                      <img 
+                        src={viz.image} 
+                        alt={viz.title} 
+                        className="max-w-full h-auto rounded-md"
+                      />
+                    </div>
+                    <div className="mt-4 p-3 bg-gray-50 rounded-md border border-gray-100">
+                      <h4 className="text-sm font-medium text-gray-700 mb-1">What This Means:</h4>
+                      <p className="text-sm text-gray-600">{viz.explanation}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+          
+          {activeCategory === 'advanced-analytics' && (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {visualizations.advancedAnalytics.map((viz, index) => (
                   <div key={index} className="bg-white p-4 rounded-lg shadow">
                     <h3 className="text-lg font-medium mb-2">{viz.title}</h3>
                     <p className="text-sm text-gray-500 mb-4">{viz.description}</p>
